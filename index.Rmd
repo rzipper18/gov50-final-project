@@ -1,7 +1,7 @@
 ---
 title: "Gov 50 Final Project"
-author: "Your Name Here"
-description: "My final project"
+author: Robert Zipper
+description: "The Relationship Between Poverty Rate and Economic Ideology in Congress"
 output:
   distill::distill_article:
     self_contained: false
@@ -11,4 +11,9 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to...
+In American politics, it is common knowledge that the two main political parties have divergent economic ideologies, specifically regarding redistribution of income by the federal government. The Democratic Party has generally been more receptive than the Republican Party to federal income-redistribution programs, including poverty relief programs. 
+
+However, voters do not only vote according to their economic interests -- increasingly, they have also been voting according to their cultural and other related ideological interests. Therefore, many voters in high-poverty regions of the U.S. do not vote for Democratic candidates who are more inclined to support economic policies (e.g., poverty relief programs) that would benefit these voters. As a result, their representatives may not be supporting the enactment of policies that would reduce poverty in these communities. 
+
+For this project, I would like to examine the extent to which a U.S. congressional district's poverty rate is correlated with the economic voting ideology of that district's representative in Congress. I plan to use the DW-NOMINATE (DW-N) scores of members of Congress as a way to measure their economic ideology on the left-right spectrum, based on their voting records. A lower DW-N score suggests that a representative is more economically liberal and thus more likely to support federal anti-poverty programs. I expect to see a positive correlation, but I do not think it will be a strong one, given the geographical and partisan heterogeneity of high-poverty regions across the United States.
+
