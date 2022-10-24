@@ -6,7 +6,14 @@ output:
   distill::distill_article:
     self_contained: false
 ---
+```{r}
 
+library(tidyverse)
+
+congress <- read_csv("H114_members.csv")
+poverty <- read_csv("tab1_poverty_cd_2017.csv")
+
+```
 
 
 ## Project thoughts
@@ -16,4 +23,13 @@ In American politics, it is common knowledge that the two main political parties
 However, voters do not only vote according to their economic interests -- increasingly, they have also been voting according to their cultural and other related ideological interests. Therefore, many voters in high-poverty regions of the U.S. do not vote for Democratic candidates who are more inclined to support economic policies (e.g., poverty relief programs) that would benefit these voters. As a result, their representatives may not be supporting the enactment of policies that would reduce poverty in these communities. 
 
 For this project, I would like to examine the extent to which a U.S. congressional district's poverty rate is correlated with the economic voting ideology of that district's representative in Congress. I plan to use the DW-NOMINATE (DW-N) scores of members of Congress as a way to measure their economic ideology on the left-right spectrum, based on their voting records. A lower DW-N score suggests that a representative is more economically liberal and thus more likely to support federal anti-poverty programs. I expect to see a positive correlation, but I do not think it will be a strong one, given the geographical and partisan heterogeneity of high-poverty regions across the United States.
+
+
+## Proposal
+
+Do members of Congress serving districts with high rates of poverty support more progressive economic policies? In this study, I plan to examine the extent to which a U.S. congressional district's poverty rate correlates with its representative's economic ideology, as measured by voting record in Congress. It is reasonable to assume that members of Congress support policies that are in the best economic interests of their constituents. Therefore, I hypothesize that members of Congress representing districts with high rates of poverty are more likely to support progressive economic policies because such policies tend to benefit poorer Americans. My sample is comprised of the poverty rates for each U.S. congressional district compiled by the Food Research and Action Center, based on the 2017 American Community Survey. My unit of analysis is a congressional district, and my explanatory variable of interest is the poverty rate, which is measured as the proportion of households in a district with an annual income below the federal poverty line. My outcome variable of interest is a U.S. Representative's DW-NOMINATE score (dimension 1), which measures a representative's economic ideology on a scale from -1 to 1, with -1 being the progressive end and 1 being the conservative end of the spectrum. These scores are calculated based on the representative's voting record in Congress. If I observe a negative correlation between a congressional district's poverty rate and its representative's DW-NOMINATE score, this would provide support for my thesis, since it would demonstrate that members of Congress representing district with high rates of poverty tend to be more economically progressive (lower DW-NOMINATE scores). If, on the other hand, I observe a positive correlation between a district's poverty rate and its representative's DW-NOMINATE score, this would provide evidence against my hypothesis. When I run my regression of U.S. Representative DW-NOMINATE score on the congressional district poverty rate variable, a negative, significant coefficient would indicate support for my hypothesis. 
+
+
+
+
 
