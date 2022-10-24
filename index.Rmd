@@ -6,14 +6,6 @@ output:
   distill::distill_article:
     self_contained: false
 ---
-```{r}
-
-library(tidyverse)
-
-congress <- read_csv("H114_members.csv")
-poverty <- read_csv("tab1_poverty_cd_2017.csv")
-
-```
 
 
 ## Project Thoughts
