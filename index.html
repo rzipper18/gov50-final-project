@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["H114_members.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","tab1_poverty_cd_2017.csv"]}
+  {"type":"character","attributes":{},"value":["H114_members.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","tab1_poverty_cd_2017.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1523,7 +1523,122 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>For this project, I would like to examine the extent to which a U.S. congressional district’s poverty rate is correlated with the economic voting ideology of that district’s representative in Congress. I plan to use the DW-NOMINATE (DW-N) scores of members of Congress as a way to measure their economic ideology on the left-right spectrum, based on their voting records. A lower DW-N score suggests that a representative is more economically liberal and thus more likely to support federal anti-poverty programs. I expect to see a positive correlation, but I do not think it will be a strong one, given the geographical and partisan heterogeneity of high-poverty regions across the United States.</p>
 <h2 id="project-proposal">Project Proposal</h2>
 <p>Do members of Congress serving districts with high rates of poverty support more progressive economic policies? In this study, I plan to examine the extent to which a U.S. congressional district’s poverty rate correlates with its representative’s economic ideology, as measured by voting record in Congress. It is reasonable to assume that members of Congress support policies that are in the best economic interests of their constituents. Therefore, I hypothesize that members of Congress representing districts with high rates of poverty are more likely to support progressive economic policies because such policies tend to benefit poorer Americans. My sample is comprised of the poverty rates for each U.S. congressional district compiled by the Food Research and Action Center, based on the 2017 American Community Survey. My unit of analysis is a congressional district, and my explanatory variable of interest is the poverty rate, which is measured as the proportion of households in a district with an annual income below the federal poverty line. My outcome variable of interest is a U.S. Representative’s DW-NOMINATE score (dimension 1), which measures a representative’s economic ideology on a scale from -1 to 1, with -1 being the progressive end and 1 being the conservative end of the spectrum. These scores are calculated based on the representative’s voting record in Congress. If I observe a negative correlation between a congressional district’s poverty rate and its representative’s DW-NOMINATE score, this would provide support for my thesis, since it would demonstrate that members of Congress representing district with high rates of poverty tend to be more economically progressive (lower DW-NOMINATE scores). If, on the other hand, I observe a positive correlation between a district’s poverty rate and its representative’s DW-NOMINATE score, this would provide evidence against my hypothesis. When I run my regression of U.S. Representative DW-NOMINATE score on the congressional district poverty rate variable, a negative, significant coefficient would indicate support for my hypothesis.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="data-analysis">Data Analysis</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='va'>congress_114</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"H114_members.csv"</span><span class='op'>)</span></span>
+<span><span class='va'>poverty_by_district</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"tab1_poverty_cd_2017.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>congress_114</span></span></code></pre>
+</div>
+<pre><code># A tibble: 442 × 23
+   congress chamber   icpsr state_ic…¹ distr…² state…³ distr…⁴ party…⁵
+      &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;
+ 1      114 President 99911         99       0 USA     &lt;NA&gt;        100
+ 2      114 House     20301         41       3 AL      AL3         200
+ 3      114 House     21102         41       7 AL      AL7         100
+ 4      114 House     21192         41       2 AL      AL2         200
+ 5      114 House     21193         41       5 AL      AL5         200
+ 6      114 House     21376         41       1 AL      AL1         200
+ 7      114 House     21500         41       6 AL      AL6         200
+ 8      114 House     29701         41       4 AL      AL4         200
+ 9      114 House     14066         81       1 AK      AK1         200
+10      114 House     20304         61       8 AZ      AZ8         200
+# … with 432 more rows, 15 more variables: occupancy &lt;dbl&gt;,
+#   last_means &lt;dbl&gt;, bioname &lt;chr&gt;, bioguide_id &lt;chr&gt;, born &lt;dbl&gt;,
+#   died &lt;dbl&gt;, nominate_dim1 &lt;dbl&gt;, nominate_dim2 &lt;dbl&gt;,
+#   nominate_log_likelihood &lt;dbl&gt;,
+#   nominate_geo_mean_probability &lt;dbl&gt;,
+#   nominate_number_of_votes &lt;dbl&gt;, nominate_number_of_errors &lt;dbl&gt;,
+#   conditional &lt;lgl&gt;, nokken_poole_dim1 &lt;dbl&gt;, …</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>poverty_by_district</span></span></code></pre>
+</div>
+<pre><code># A tibble: 436 × 8
+   State       Congr…¹ Congr…² distr…³ Numbe…⁴ pover…⁵ Numbe…⁶ Percent
+   &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1 New York       3615 Congre… NY15     278534   0.362  463668   0.602
+ 2 Michigan       2613 Congre… MI13     196831   0.296  325773   0.490
+ 3 Kentucky       2105 Congre… KY5      195261   0.291  336103   0.501
+ 4 Texas          4834 Congre… TX34     197218   0.278  350383   0.493
+ 5 Louisiana      2202 Congre… LA2      210533   0.271  363722   0.467
+ 6 California      616 Congre… CA16     189477   0.267  353668   0.499
+ 7 Mississippi    2802 Congre… MI2      175751   0.262  329629   0.491
+ 8 Pennsylvan…    4202 Congre… PA2      180038   0.260  290442   0.419
+ 9 Texas          4815 Congre… TX15     198707   0.257  370435   0.479
+10 Ohio           3911 Congre… OH11     167556   0.256  285767   0.436
+# … with 426 more rows, and abbreviated variable names
+#   ¹​`Congressional District ID`, ²​`Congressional District Name`,
+#   ³​district_id, ⁴​Number...5, ⁵​poverty_rate, ⁶​Number...7</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>district_poverty</span> <span class='op'>&lt;-</span> <span class='va'>poverty_by_district</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>district_id</span>, <span class='va'>poverty_rate</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>district_poverty</span></span></code></pre>
+</div>
+<pre><code># A tibble: 436 × 2
+   district_id poverty_rate
+   &lt;chr&gt;              &lt;dbl&gt;
+ 1 NY15               0.362
+ 2 MI13               0.296
+ 3 KY5                0.291
+ 4 TX34               0.278
+ 5 LA2                0.271
+ 6 CA16               0.267
+ 7 MI2                0.262
+ 8 PA2                0.260
+ 9 TX15               0.257
+10 OH11               0.256
+# … with 426 more rows</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>congress_and_poverty</span> <span class='op'>&lt;-</span> <span class='va'>congress_114</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>district_poverty</span><span class='op'>)</span> </span>
+<span></span>
+<span><span class='va'>congress_and_poverty</span></span></code></pre>
+</div>
+<pre><code># A tibble: 444 × 24
+   congress chamber   icpsr state_ic…¹ distr…² state…³ distr…⁴ party…⁵
+      &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;
+ 1      114 President 99911         99       0 USA     &lt;NA&gt;        100
+ 2      114 House     20301         41       3 AL      AL3         200
+ 3      114 House     21102         41       7 AL      AL7         100
+ 4      114 House     21192         41       2 AL      AL2         200
+ 5      114 House     21193         41       5 AL      AL5         200
+ 6      114 House     21376         41       1 AL      AL1         200
+ 7      114 House     21500         41       6 AL      AL6         200
+ 8      114 House     29701         41       4 AL      AL4         200
+ 9      114 House     14066         81       1 AK      AK1         200
+10      114 House     20304         61       8 AZ      AZ8         200
+# … with 434 more rows, 16 more variables: occupancy &lt;dbl&gt;,
+#   last_means &lt;dbl&gt;, bioname &lt;chr&gt;, bioguide_id &lt;chr&gt;, born &lt;dbl&gt;,
+#   died &lt;dbl&gt;, nominate_dim1 &lt;dbl&gt;, nominate_dim2 &lt;dbl&gt;,
+#   nominate_log_likelihood &lt;dbl&gt;,
+#   nominate_geo_mean_probability &lt;dbl&gt;,
+#   nominate_number_of_votes &lt;dbl&gt;, nominate_number_of_errors &lt;dbl&gt;,
+#   conditional &lt;lgl&gt;, nokken_poole_dim1 &lt;dbl&gt;, …</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='va'>congress_and_poverty</span><span class='op'>$</span><span class='va'>poverty_rate</span>, <span class='va'>congress_and_poverty</span><span class='op'>$</span><span class='va'>nominate_dim1</span>, use <span class='op'>=</span> <span class='st'>"complete.obs"</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] -0.2061822</code></pre>
+</div>
+<p>The correlation between poverty rate and DW-NOMINATE score is approximately -0.2. Members of Congress representing high-poverty districts are more likely to support ideologically progressive economic policies.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>scatterplot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>congress_and_poverty</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>poverty_rate</span>, y <span class='op'>=</span> <span class='va'>nominate_dim1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"steelblue1"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Congressional District Poverty Rate"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"DW-NOMINATE score (lower = more progressive)"</span>,</span>
+<span>       title <span class='op'>=</span> <span class='st'>"District Poverty Rate and U.S. Representative Economic Ideology"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"indianred1"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>scatterplot</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
