@@ -64,7 +64,7 @@ scatterplot <- ggplot(congress_and_poverty, aes(x = poverty_rate, y = nominate_d
   geom_point(color = "steelblue1") +
   labs(x = "Congressional District Poverty Rate",
        y = "DW-NOMINATE score (lower = more progressive)",
-       title = "Congressional District Poverty Rate and U.S. Representative Economic Ideology") +
+       title = "District Poverty Rate and U.S. Representative Economic Ideology") +
   geom_smooth(method = "lm", se = FALSE, color = "indianred1")
 
 scatterplot
@@ -108,7 +108,7 @@ knitr::kable(rep_correlation,
 
 ```
 
-We see that the correlation between congressional district poverty rate and U.S. Representative economic conservatism. Among Democrats, the correlation between congressional district poverty rate and U.S. Representative economic conservatism is -0.24, slightly stronger than the correlation for Congress overall. Consistent with my hypothesis, Democrats representing high-poverty districts are more likely to support progressive economic policies. However, among Republicans, the correlation between congressional district poverty rate and U.S. Representative economic conservatism is 0.05. Republicans representing high-poverty districts are slightly less likely to support progressive economic policies. This finding is inconsistent with my hypothesis, which predicts negative correlations between congressional district poverty rate and U.S. Representative economic conservatism. However, it is important to highlight that this correlation is quite weak. 
+We see that the correlation between congressional district poverty rate and U.S. Representative economic conservatism. Among Democrats, the correlation between congressional district poverty rate and U.S. Representative economic conservatism is -0.24, slightly stronger than the correlation for Congress overall. Consistent with my hypothesis, Democrats representing high-poverty districts are more likely to support progressive economic policies. However, among Republicans, the correlation between congressional district poverty rate and U.S. Representative economic conservatism is 0.05. Republicans representing high-poverty districts are slightly less likely to support progressive economic policies. This finding is inconsistent with my hypothesis, which predicts negative correlations between congressional district poverty rate and U.S. Representative economic conservatism. However, it is important to highlight that this correlation is weak. 
 
 
 
