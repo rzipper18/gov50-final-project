@@ -19,7 +19,7 @@ For this project, I would like to examine the extent to which a U.S. congression
 
 ## Project Proposal
 
-Do members of Congress serving districts with high rates of poverty support more progressive economic policies? In this study, I plan to examine the extent to which a U.S. congressional district's poverty rate correlates with its representative's economic ideology, as measured by voting record in Congress. It is reasonable to assume that members of Congress support policies that are in the best economic interests of their constituents. Therefore, I hypothesize that members of Congress representing districts with high rates of poverty are more likely to support progressive economic policies because such policies tend to benefit poorer Americans. My sample is comprised of the poverty rates for each U.S. congressional district compiled by the Food Research and Action Center, based on the 2017 American Community Survey. My unit of analysis is a congressional district, and my explanatory variable of interest is the poverty rate, which is measured as the proportion of households in a district with an annual income below the federal poverty line. My outcome variable of interest is a U.S. Representative's DW-NOMINATE score (dimension 1), which measures a representative's economic ideology on a scale from -1 to 1, with -1 being the progressive end and 1 being the conservative end of the spectrum. These scores are calculated based on the representative's voting record in Congress. If I observe a negative correlation between a congressional district's poverty rate and its representative's DW-NOMINATE score, this would provide support for my thesis, since it would demonstrate that members of Congress representing district with high rates of poverty tend to be more economically progressive (lower DW-NOMINATE scores). If, on the other hand, I observe a positive correlation between a district's poverty rate and its representative's DW-NOMINATE score, this would provide evidence against my hypothesis. When I run my regression of U.S. Representative DW-NOMINATE score on the congressional district poverty rate variable, a negative, significant coefficient would indicate support for my hypothesis. 
+Do members of Congress serving districts with high rates of poverty support more progressive economic policies? In this study, I plan to examine the extent to which a U.S. congressional district's poverty rate correlates with its representative's economic ideology, as measured by voting record in Congress. It is reasonable to assume that members of Congress support policies that are in the best economic interests of their constituents. Therefore, I hypothesize that members of Congress representing districts with high rates of poverty are more likely to support progressive economic policies because such policies tend to benefit poorer Americans. My sample is comprised of the poverty rates for each U.S. congressional district compiled by the Food Research and Action Center, based on the 2017 American Community Survey. My unit of analysis is a congressional district, and my explanatory variable of interest is the poverty rate, which is measured as the proportion of households in a district with an annual income below the federal poverty line. My outcome variable of interest is a U.S. Representative's DW-NOMINATE score (dimension 1), which measures a representative's economic ideology on a scale from -1 to 1, with -1 being the progressive end and 1 being the conservative end of the spectrum. These scores are calculated based on the representative's voting record in Congress. If I observe a negative correlation between a congressional district's poverty rate and its representative's DW-NOMINATE score, this would provide support for my hypothesis, since it would demonstrate that members of Congress representing district with high rates of poverty tend to be more economically progressive (lower DW-NOMINATE scores). If, on the other hand, I observe a positive correlation between a district's poverty rate and its representative's DW-NOMINATE score, this would provide evidence against my hypothesis. When I run my regression of U.S. Representative DW-NOMINATE score on the congressional district poverty rate variable, a negative, significant coefficient would indicate support for my hypothesis. I will refer to an increase in the DW-NOMINATE score as an increase in U.S. Representative "economic conservatism."
 
 
 ## Data Analysis
@@ -48,11 +48,15 @@ congress_and_poverty <- congress_114 |>
 
 congress_and_poverty
 
-cor(congress_and_poverty$poverty_rate, congress_and_poverty$nominate_dim1, use = "complete.obs")
+correlation <- cor(congress_and_poverty$poverty_rate, congress_and_poverty$nominate_dim1, use = "complete.obs")
+
+knitr::kable(correlation,
+             col.names = "Correlation Between  Poverty Rate and DW-NOMINATE Score", 
+             digits = 2)
   
 ```
 
-The correlation between poverty rate and DW-NOMINATE score is approximately -0.2. Members of Congress representing high-poverty districts are more likely to support ideologically progressive economic policies. 
+The correlation between poverty rate and DW-NOMINATE score is approximately -0.21. Members of Congress representing high-poverty districts are more likely to support ideologically progressive economic policies. This finding is consistent with my hypothesis.
 
 ```{r}
 
@@ -60,14 +64,51 @@ scatterplot <- ggplot(congress_and_poverty, aes(x = poverty_rate, y = nominate_d
   geom_point(color = "steelblue1") +
   labs(x = "Congressional District Poverty Rate",
        y = "DW-NOMINATE score (lower = more progressive)",
-       title = "District Poverty Rate and U.S. Representative Economic Ideology") +
+       title = "Congressional District Poverty Rate and U.S. Representative Economic Ideology") +
   geom_smooth(method = "lm", se = FALSE, color = "indianred1")
 
 scatterplot
 
 ```
 
+## Linear Regression
 
+```{r}
+
+regression <- lm(nominate_dim1 ~ poverty_rate, data = congress_and_poverty)
+
+regression
+
+```
+
+A 1-unit (100 percentage point) increase in the poverty rate of a congressional district is associated with a decrease in the U.S. Representative's DW-NOMINATE score of 1.877. A 1% increase in the poverty rate of a congressional district is associated with a decrease in the U.S. Representative's DW-NOMINATE score of 0.019.
+
+## Correlations by Party
+
+```{r}
+
+dem_congress_and_poverty <- congress_and_poverty |>
+  filter(party_code == 100)
+
+rep_congress_and_poverty <- congress_and_poverty |>
+  filter(party_code == 200)
+
+dem_correlation <- cor(dem_congress_and_poverty$poverty_rate, dem_congress_and_poverty$nominate_dim1, use = "complete.obs")
+
+knitr::kable(dem_correlation,
+             digits = 2,
+             col.names = "Correlation for Democrats")
+
+rep_correlation <- cor(rep_congress_and_poverty$poverty_rate, rep_congress_and_poverty$nominate_dim1, use = "complete.obs")
+
+knitr::kable(rep_correlation,
+             digits = 2,
+             col.names = "Correlation for Republicans")
+
+
+```
+
+We see that the correlation between congressional district poverty rate and U.S. Representative economic conservatism. Among Democrats, the correlation between congressional district poverty rate and U.S. Representative economic conservatism is -0.24, slightly stronger than the correlation for Congress overall. Consistent with my hypothesis, Democrats representing high-poverty districts are more likely to support progressive economic policies. However, among Republicans, the correlation between congressional district poverty rate and U.S. Representative economic conservatism is 0.05. Republicans representing high-poverty districts are slightly less likely to support progressive economic policies. This finding is inconsistent with my hypothesis, which predicts negative correlations between congressional district poverty rate and U.S. Representative economic conservatism. However, it is important to highlight that this correlation is quite weak. 
 
 
 
